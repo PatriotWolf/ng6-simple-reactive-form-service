@@ -10,6 +10,8 @@ export class SampleformComponent implements OnInit {
   profileForm = this.fb.group({
     firstName: [''],
   });
+  isReceivedData = false;
+  replyFromService = '';
   constructor(private fb: FormBuilder, private formRequest : PostformService) { }
 
   ngOnInit() {
@@ -18,6 +20,10 @@ export class SampleformComponent implements OnInit {
   onSubmit() {
     // TODO: Use EventEmitter with form value
     console.warn(this.profileForm.value);
-    this.formRequest.getGreetFromBot(this.profileForm.value);
+    this.formRequest.getGreetFromBot(this.profileForm.value).subscribe(data => {
+      //this is response from server
+      this.isReceivedData = true;
+      this.replyFromService = data['firstName'];
+    });
   }
 }
